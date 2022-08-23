@@ -20,19 +20,6 @@ that was found in the original string and how many times it was found.
 
 =end
 
-#"string".split 
-=begin
-temp = "Howdy partner, sit down! How's it going?"
-p temp.split # ["Howdy", "partner,", "sit", "down!", "How's", "it", "going?"]
-t1 = "howdy"
-p t1.split
-=end
-
-#1. loop through each subtring in dictionary
-#2. for each substring in dictionary, loop through each word in the sentance to see if it is in there
-#3. update a hash each time a match occurs
-
-#use include? to check if a match happens? look into that one hash example with votes...
 
 def substrings(sentence, dictionary)
 
@@ -53,14 +40,32 @@ def substrings(sentence, dictionary)
 end
 
 
-#need to use map or something to make each word in sentence lowercase b/c include? is case sensitive
-
-#s.downcase
-
 dictionary1 = ["below","down","go","going","horn","how","howdy","it","i","low","own","part","partner","sit"]
 
 p substrings("BeLow", dictionary1)   #this works { "below" => 1, "low" => 1 }
 p substrings("Howdy partner, sit down! How's it going?", dictionary1)
+
+
+#ROUGH WORK
+
+#"string".split 
+=begin
+temp = "Howdy partner, sit down! How's it going?"
+p temp.split # ["Howdy", "partner,", "sit", "down!", "How's", "it", "going?"]
+t1 = "howdy"
+p t1.split
+=end
+
+#1. loop through each subtring in dictionary
+#2. for each substring in dictionary, loop through each word in the sentance to see if it is in there
+#3. update a hash each time a match occurs
+
+#use include? to check if a match happens? look into that one hash example with votes...
+
+#need to use map or something to make each word in sentence lowercase b/c include? is case sensitive
+
+#s.downcase
+
 #temp = "foo"
 #p temp.include?("f")
 #p temp.include?("F")
