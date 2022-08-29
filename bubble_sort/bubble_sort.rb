@@ -12,7 +12,7 @@ puts "Hello Bubble Sort Problem"
 
 def bubble_sort(array)
 
-    
+
     temp = 0
     sorted = true
 
