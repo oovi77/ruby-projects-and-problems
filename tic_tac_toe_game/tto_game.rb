@@ -50,11 +50,12 @@ class Board < Player
     #function that allows a player to place an X or O on the board in their desired position
     #return true if position is valid, false otherwise?
     def place_on_board(position, value)
+        position = position.to_i
         if position >= board.length || position < 0
-            p "Illegal position, out of bounds."
+            p "Illegal position, out of bounds. Try again."
             return false
         elsif @board[position] != " "
-            p "Illegal position, position already in use."
+            p "Illegal position, position already in use. Try again."
             return false
         else
             @board[position] = value
@@ -169,7 +170,7 @@ end
 
 #name = gets.chomp
 
-=begin
+
 game_status = 1
 p1_name = nil
 p2_name = nil
@@ -216,17 +217,26 @@ player_position = " "
 
 while game_status == 1
 
+    if b1.full_board?
+        game_status = 0
+        p1_turn_status = 0
+        p2_turn_status = 0
+        p "Tie game! Game Over."
+    end
+
     while p1_turn_status == 1
 
         print "#{p1_name}'s turn, please enter a valid position on the board. Here is the current board state: "
         b1.display_board
         player_position = gets.chomp
-        if place_on_board(player_position, p1.player_symbol)
+        if b1.place_on_board(player_position, p1.player_symbol)
             player_position = " "
             if b1.victory? 
                 p "#{p1.name} wins! Game Over."
                 p1_turn_status = 0
+                p2_turn_status = 0
                 game_status = 0
+                break
             end
             p1_turn_status = 0
             p2_turn_status = 1
@@ -234,12 +244,37 @@ while game_status == 1
 
     end
 
+    while p2_turn_status == 1
 
+        print "#{p2_name}'s turn, please enter a valid position on the board. Here is the current board state: "
+        b1.display_board
+        player_position = gets.chomp
+        if b1.place_on_board(player_position, p2.player_symbol)
+            player_position = " "
+            if b1.victory? 
+                p "#{p2.name} wins! Game Over."
+                p1_turn_status = 0
+                p2_turn_status = 0
+                game_status = 0
+                break
+            end
+            p1_turn_status = 1
+            p2_turn_status = 0
+        end
+
+    end
+
+    if (b1.full_board? && game_status == 1)
+        game_status = 0
+        p1_turn_status = 0
+        p2_turn_status = 0
+        p "Tie game! Game Over."
+    end
 
 end
 #end of main loop, where players take their turns
 
-=end
+
 
 #tests for full_board?
 
