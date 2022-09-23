@@ -554,13 +554,84 @@ end
 
 #Assignment Clean Phone Numbers
 '''
+Similar to the zip codes, the phone numbers suffer from multiple formats and inconsistencies. 
+If we wanted to allow individuals to sign up for mobile alerts with the phone numbers, 
+we would need to make sure all of the numbers are valid and well-formed.
 
+
+If the phone number is less than 10 digits, assume that it is a bad number
+If the phone number is 10 digits, assume that it is good
+If the phone number is 11 digits and the first number is 1, trim the 1 and
+use the remaining 10 digits
+
+If the phone number is 11 digits and the first number is not 1, then it is a bad number
+If the phone number is more than 11 digits, assume that it is a bad number
 
 
 '''
 
+require 'csv'
 
 
+
+puts 'EventManager initialized.'
+
+contents = CSV.open(
+  'event_attendees.csv',
+  headers: true,
+  header_converters: :symbol
+)
+
+#need to clean-up / format these various types of phone numbers
+'''
+6154385000
+414-520-5000
+(941)979-2000
+613 565-4000
+(202) 328 1000
+858 405 3000
+(603) 305-3000
+9.82E+00
+14018685000
+'''
+
+contents.each do |row|
+  original_num = row[:homephone]
+  phone_num = row[:homephone]
+  num_split = phone_num.split(//)   
+  
+  phone_num = ""
+ 
+  num_split.each do |num|
+    if num == "0" 
+      phone_num += num
+    elsif num.to_i != 0
+      phone_num += num
+    end
+  end
+
+  if phone_num.length < 10
+    phone_num = "0000000000"
+  elsif phone_num[0] == "1" && phone_num.length == 11
+    phone_num = phone_num[1..phone_num.length]
+  elsif phone_num.length >= 11
+    phone_num = "0000000000"
+  end
+  
+  puts "#{original_num}  converted to: #{phone_num}"
+
+
+
+  
+end
+
+=begin
+#puts "#{phone_num.split(//)}"
+#example, gets this: ["6", "1", "5", "4", "3", "8", "5", "0", "0", "0"]
+t1 = "temp"
+t2 = t1.split(//)
+puts "t1 is: #{t1}   t2 is: #{t2}"
+=end
 
 
 
