@@ -1,3 +1,8 @@
+#beginning of this document is rough work of following the lesson plan
+#Assignment for clean phone numbers, time targeting and day of the
+#week targeting is at the bottom of the document
+
+
 #puts 'Event Manager Initialized!'
 
 #puts File.exist? "event_attendees.csv"
