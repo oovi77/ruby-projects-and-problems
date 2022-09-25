@@ -1,6 +1,6 @@
-puts 'Event Manager Initialized!'
+#puts 'Event Manager Initialized!'
 
-puts File.exist? "event_attendees.csv"
+#puts File.exist? "event_attendees.csv"
 
 #this spits out everything in the csv file
 """
@@ -570,9 +570,8 @@ If the phone number is more than 11 digits, assume that it is a bad number
 
 '''
 
+=begin
 require 'csv'
-
-
 
 puts 'EventManager initialized.'
 
@@ -619,11 +618,10 @@ contents.each do |row|
   end
   
   puts "#{original_num}  converted to: #{phone_num}"
-
-
-
-  
 end
+
+=end
+
 
 =begin
 #puts "#{phone_num.split(//)}"
@@ -635,7 +633,182 @@ puts "t1 is: #{t1}   t2 is: #{t2}"
 
 
 
+##################################################################
 
+#Time-Targeting Assignment
+#find out peak registration hours
+
+=begin
+
+require 'csv'
+
+
+
+# ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode
+
+
+contents = CSV.open(
+  'event_attendees.csv',
+  headers: true,
+  header_converters: :symbol
+)
+
+#example of what is in regdate
+#"11/12/08 16:05" , mm/dd/yy  time (time in 24h format)
+
+#date.strptime, parses the given representation of data and time and creates a date object
+"""
+temp = Date.strptime('2001-02-03', '%Y-%m-%d')
+p temp
+puts temp
+puts '-------'
+"""
+
+"""
+d = Date.parse('3rd Feb 2001')
+                             #=> #<Date: 2001-02-03 ...>
+p d.year                       #=> 2001
+p d.mon                        #=> 2
+p d.mday                       #=> 3
+p d.wday                       #=> 6
+p d += 1                       #=> #<Date: 2001-02-04 ...>
+p d.strftime('%a %d %b %Y')    #=> 'Sun 04 Feb 2001'
+
+"""
+
+count_hours = Hash.new(0)
+
+contents.each do |row|
+  date_time = row[:regdate]
+  time = date_time.split(" ")[1]
+  hour = time.split(":")[0]
+  #p hour
+  # have the hour, probably want to use a hash to keep track of it
+  count_hours[hour] += 1
+end
+
+p count_hours
+
+max_hour = 0
+peak_hour = ""
+
+count_hours.each do |key, value|
+  if value >= max_hour
+    max_hour = value
+    peak_hour = key
+  end
+end
+
+puts "peak hour is: #{peak_hour}"
+
+=end
+
+#*************!!!!!!!!!!***********
+
+
+##################################################################
+
+#Day of the week targeting Assignment
+#find out what days of the week did most people register
+
+require 'csv'
+require 'date'
+
+
+# ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode
+
+
+contents = CSV.open(
+  'event_attendees.csv',
+  headers: true,
+  header_converters: :symbol
+)
+
+#example of what is in regdate
+#"11/12/08 16:05" , mm/dd/yy  time (time in 24h format)
+
+#date.strptime, parses the given representation of data and time and creates a date object
+"""
+temp = Date.strptime('2001-02-03', '%Y-%m-%d')
+p temp
+puts temp
+puts '-------'
+"""
+
+
+"""
+d = Date.parse('3rd Feb 2001')
+                             #=> #<Date: 2001-02-03 ...>
+p d.year                       #=> 2001
+p d.mon                        #=> 2
+p d.mday                       #=> 3
+p d.wday                       #=> 6
+p d += 1                       #=> #<Date: 2001-02-04 ...>
+p d.strftime('%a %d %b %Y')    #=> 'Sun 04 Feb 2001'
+
+"""
+
+count_weeks = Hash.new(0)
+
+contents.each do |row|
+
+  date = Date.strptime(row[:regdate].split[0], '%m/%d/%y')
+  #p date
+  week = date.wday
+  count_weeks[week] += 1
+
+  #date = row[:regdate].split[0]
+  #p date
+
+  #time = date_time.split(" ")[1]
+  #hour = time.split(":")[0]
+  #p hour
+  # have the hour, probably want to use a hash to keep track of it
+  
+  #count_hours[hour] += 1
+end
+
+p count_weeks
+
+max_week = 0
+count = 0
+count_weeks.each do |key, value|
+  if value >= count
+    count = value
+    max_week = key
+  end
+end
+
+p "Peak day of week is: #{Date::ABBR_DAYNAMES[max_week]}"
+
+
+#temp = Date.strptime('2001-02-03', '%Y-%m-%d')
+#temp = Date.strptime('08/11/23', '%y/%m/%d')
+#temp1 = Date.strptime('08/11/20', '%y/%m/%d')
+
+=begin
+temp = Date.strptime('11/20/08', '%m/%d/%y')
+temp1 = Date.strptime('11/23/08', '%m/%d/%y')
+p temp.wday #0
+p temp1.wday #4
+puts '-------'
+=end
+
+=begin
+p count_hours
+
+max_hour = 0
+peak_hour = ""
+
+count_hours.each do |key, value|
+  if value >= max_hour
+    max_hour = value
+    peak_hour = key
+  end
+end
+
+#puts "peak hour is: #{peak_hour}"
+=end
 
 
 
